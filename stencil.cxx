@@ -103,21 +103,22 @@ void init(ui64 dim){
 
 void one_iteration()
 {
-        double p;
         ui64 DIM_XYZ;
                 for (ui64 z = 0; z < DIMZ; z++) {
                         for (ui64 y = 0; y < DIMY; y++){
                                 for (ui64 x = 0; x < DIMX; x++){
                                         DIM_XYZ = DIMXYZ(x,y,z);
+                                        double p1 = 17.0, p;
                                         matC[DIM_XYZ] = matA[DIM_XYZ]*matB[DIM_XYZ] ;
                                         for (ui64 o = 1; o <= order; o++){
-                                               p = 1 / pow(17.0,o);
+                                               p = 1 / p1;
                                                matC[DIM_XYZ]+= matA[DIMXYZ(x+o,y,z)]*matB[DIMXYZ(x+o,y,z)] * p;
                                                matC[DIM_XYZ]+= matA[DIMXYZ(x-o,y,z)]*matB[DIMXYZ(x-o,y,z)] * p;
                                                matC[DIM_XYZ]+= matA[DIMXYZ(x,y+o,z)]*matB[DIMXYZ(x,y+o,z)] * p;
                                                matC[DIM_XYZ]+= matA[DIMXYZ(x,y-o,z)]*matB[DIMXYZ(x,y-o,z)] * p;
                                                matC[DIM_XYZ]+= matA[DIMXYZ(x,y,z+o)]*matB[DIMXYZ(x,y,z+o)] * p;
                                                matC[DIM_XYZ]+= matA[DIMXYZ(x,y,z-o)]*matB[DIMXYZ(x,y,z-o)] * p;
+                                               p1 *= 17.0;
                                         }
                                 }
                         }
