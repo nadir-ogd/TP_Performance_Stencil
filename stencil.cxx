@@ -8,10 +8,10 @@
  * Kernels à optimizer dans le cadre du TP optimisation
  * du module "Architecture et Modèle de calcul"
  * 
- * NOM_1: Nom Prénom Binôme1
- * EMAIL_1 : Email Binôme1
- * NOM_2: Nom Prénom Binôme2
- * EMAIL_2 : Email Binôme2
+ * NOM_1: Ouagued Nadir
+ * EMAIL_1 : nadir.ouagued@etudiant.univ-perp.fr
+ * NOM_2: Merad Rania
+ * EMAIL_2 : rania.merad@etudiant.univ-perp.fr
  * 
  * Compilation :
  * > g++ -O3 stencil.cxx -o stencil
