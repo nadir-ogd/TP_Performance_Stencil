@@ -103,17 +103,21 @@ void init(ui64 dim){
 
 void one_iteration()
 {
+        double p;
+        ui64 DIM_XYZ;
                 for (ui64 z = 0; z < DIMZ; z++) {
                         for (ui64 y = 0; y < DIMY; y++){
                                 for (ui64 x = 0; x < DIMX; x++){
-                                        matC[DIMXYZ(x,y,z)] = matA[DIMXYZ(x,y,z)]*matB[DIMXYZ(x,y,z)] ;
+                                        DIM_XYZ = DIMXYZ(x,y,z);
+                                        matC[DIM_XYZ] = matA[DIM_XYZ]*matB[DIM_XYZ] ;
                                         for (ui64 o = 1; o <= order; o++){
-                                               matC[DIMXYZ(x,y,z)]+= matA[DIMXYZ(x+o,y,z)]*matB[DIMXYZ(x+o,y,z)] / pow(17.0,o);
-                                               matC[DIMXYZ(x,y,z)]+= matA[DIMXYZ(x-o,y,z)]*matB[DIMXYZ(x-o,y,z)] / pow(17.0,o);
-                                               matC[DIMXYZ(x,y,z)]+= matA[DIMXYZ(x,y+o,z)]*matB[DIMXYZ(x,y+o,z)] / pow(17.0,o);
-                                               matC[DIMXYZ(x,y,z)]+= matA[DIMXYZ(x,y-o,z)]*matB[DIMXYZ(x,y-o,z)] / pow(17.0,o);
-                                               matC[DIMXYZ(x,y,z)]+= matA[DIMXYZ(x,y,z+o)]*matB[DIMXYZ(x,y,z+o)] / pow(17.0,o);
-                                               matC[DIMXYZ(x,y,z)]+= matA[DIMXYZ(x,y,z-o)]*matB[DIMXYZ(x,y,z-o)] / pow(17.0,o);
+                                               p = 1 / pow(17.0,o);
+                                               matC[DIM_XYZ]+= matA[DIMXYZ(x+o,y,z)]*matB[DIMXYZ(x+o,y,z)] * p;
+                                               matC[DIM_XYZ]+= matA[DIMXYZ(x-o,y,z)]*matB[DIMXYZ(x-o,y,z)] * p;
+                                               matC[DIM_XYZ]+= matA[DIMXYZ(x,y+o,z)]*matB[DIMXYZ(x,y+o,z)] * p;
+                                               matC[DIM_XYZ]+= matA[DIMXYZ(x,y-o,z)]*matB[DIMXYZ(x,y-o,z)] * p;
+                                               matC[DIM_XYZ]+= matA[DIMXYZ(x,y,z+o)]*matB[DIMXYZ(x,y,z+o)] * p;
+                                               matC[DIM_XYZ]+= matA[DIMXYZ(x,y,z-o)]*matB[DIMXYZ(x,y,z-o)] * p;
                                         }
                                 }
                         }
@@ -122,7 +126,8 @@ void one_iteration()
                 for (ui64 z = 0; z < DIMZ; z++) {
                         for (ui64 y = 0; y < DIMY; y++){
                                 for (ui64 x = 0; x < DIMX; x++){
-                                        matA[DIMXYZ(x,y,z)] = matC[DIMXYZ(x,y,z)];
+                                        DIM_XYZ = DIMXYZ(x,y,z);
+                                        matA[DIM_XYZ] = matC[DIM_XYZ];
                                 }
                         }
                 }
