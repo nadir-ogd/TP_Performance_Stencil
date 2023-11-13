@@ -2,7 +2,7 @@
 #include <assert.h>
 #include <math.h>
 #include <sys/time.h>
-
+#include <cstring>
 
 /********************************************************
  * Kernels à optimizer dans le cadre du TP optimisation
@@ -103,30 +103,33 @@ void init(ui64 dim){
 
 void one_iteration()
 {
-        double p, p1;       
+        double p, p1, temp;      
         ui64 xyz, x1, y1, z1, x2, y2, z2;
                 for (ui64 z = 0; z < DIMZ; z++) {
                         for (ui64 y = 0; y < DIMY; y++){
                                 for (ui64 x = 0; x < DIMX; x++){
                                         xyz = DIMXYZ(x,y,z);
-                                        matC[xyz] = matA[xyz]*matB[xyz];
+                                        temp = matA[xyz]*matB[xyz];
                                         p1 = 17.0;
                                         for (ui64 o = 1; o <= order; o++){
-                                                p = 1 / p1;
+                                                p = 1 / p1; //remplacer la division par la multiplicity
                                                 x1 = DIMXYZ(x+o,y,z);
                                                 x2 = DIMXYZ(x-o,y,z);
                                                 y1 = DIMXYZ(x,y+o,z);
                                                 y2 = DIMXYZ(x,y-o,z);
                                                 z1 = DIMXYZ(x,y,z+o);
                                                 z2 = DIMXYZ(x,y,z-o);
-                                                matC[xyz] += p * (( matA[x1] * matB[x1] ) 
-                                                + ( matA[x2] * matB[x2] )
-                                                + ( matA[y1] * matB[y1] ) 
-                                                + ( matA[y2] * matB[y2] )
-                                                + ( matA[z1] * matB[z1] )
-                                                + ( matA[z2] * matB[z2] ));  
-                                                p1 *= 17.0;
+                                                
+                                                temp += p * (
+                                                  (matA[x1] * matB[x1])
+                                                + (matA[x2] * matB[x2]) 
+                                                + (matA[y1] * matB[y1]) 
+                                                + (matA[y2] * matB[y2])
+                                                + (matA[z1] * matB[z1])
+                                                + (matA[z2] * matB[z2]));
+                                                p1 *= 17.0;//éviter l'utilisation de pow(17.0, o)
                                         }
+                                        matC[xyz] = temp;
                                 }
                         }
                 }
@@ -153,7 +156,7 @@ int main(const int argc,char **argv){
         /* 
          * Pensez à ne faire les tests que sur un petit cas en mode développment
          */
-        ui64 val_dim[NBTEST]={1000,1000,1000};
+        ui64 val_dim[NBTEST]={50,100,200};
         ui64 perf_ref[NBTEST]={164590,1249490,10277669};
         double val_ref[3][5]={
                 { 0.633645047811189 , 0.540528349585631 , 0.588436820082514 , -2.147536753829282, -0.004316384996407},
