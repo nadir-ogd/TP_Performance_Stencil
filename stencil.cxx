@@ -112,14 +112,14 @@ void one_iteration()
                                         temp = matA[xyz]*matB[xyz];
                                         p1 = 17.0;
                                         for (ui64 o = 1; o <= order; o++){
-                                                p = 1 / p1; //remplacer la division par la multiplicity
+                                                p = 1.0 / p1; //remplacer la division par la multiplicity
                                                 x1 = DIMXYZ(x+o,y,z);
                                                 x2 = DIMXYZ(x-o,y,z);
                                                 y1 = DIMXYZ(x,y+o,z);
                                                 y2 = DIMXYZ(x,y-o,z);
                                                 z1 = DIMXYZ(x,y,z+o);
                                                 z2 = DIMXYZ(x,y,z-o);
-                                                
+
                                                 temp += p * (
                                                   (matA[x1] * matB[x1])
                                                 + (matA[x2] * matB[x2]) 
